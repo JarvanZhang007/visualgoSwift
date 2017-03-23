@@ -61,8 +61,8 @@ class QuickSortViewController: UIViewController {
         self.createDataWithLayoutUI()
         
 //        add block
-        grahpView?.finishAction={
-                self.gvState=2
+        grahpView?.finishAction={[weak self] in
+                self?.gvState=2
         }
 //        add KVO 
         self.addObserver(self, forKeyPath: "gvState", options: .new, context: &myContext)
