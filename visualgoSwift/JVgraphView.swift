@@ -173,20 +173,19 @@ class JVgraphView: UIView {
         self.viewArray[changeIdx]=self.viewArray[toIdx]
         self.viewArray[toIdx]=temporary
         
-        var animation:Bool=true
         usleep(sleepTime)
+        
+        let semaphore = DispatchSemaphore(value: 0)
+        
         DispatchQueue.main.sync {
             UIView.animate(withDuration: 0.25, animations: {
                 view1.frame=tRT
                 view2.frame=cRT
             }, completion: { (finished) in
-               animation=false
+                semaphore.signal()
             })
         }
-        
-        while animation {
-            RunLoop.current.run(mode: .commonModes, before: Date.distantFuture)
-        }
+        semaphore.wait()
     }
 
 }
